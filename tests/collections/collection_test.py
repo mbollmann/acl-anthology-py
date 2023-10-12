@@ -80,8 +80,6 @@ def test_collection_roundtrip_save(collection_index, datadir, tmp_path, filename
     collection.save(path=outfile)
     # Compare
     assert outfile.is_file()
-    parser = etree.XMLParser(encoding="utf-8")
-    with open(infile, "r") as f, open(outfile, "r") as g:
-        expected = etree.parse(f, parser)
-        generated = etree.parse(g, parser)
+    expected = etree.parse(infile)
+    generated = etree.parse(outfile)
     xml.assert_equals(generated.getroot(), expected.getroot())
