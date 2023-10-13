@@ -18,14 +18,12 @@ fix-and-test: pre-commit-autofix typecheck pytest
 
 .PHONY: dependencies
 dependencies: .flag_installed
-
-.PHONY: setup
-setup: .flag_installed .git/hooks/pre-commit
-
 .flag_installed: pyproject.toml
 	poetry install --with dev
 	@touch .flag_installed
 
+.PHONY: install-hooks
+install-hooks: .git/hooks/pre-commit
 .git/hooks/pre-commit: .flag_installed .pre-commit-config.yaml
 	$(run) pre-commit install
 
