@@ -59,6 +59,14 @@ pre-commit: .flag_installed
 pre-commit-autofix: .flag_installed
 	@$(run) pre-commit run --all-files || $(run) pre-commit run --all-files
 
+.PHONY: test-all-python-versions
+test-all-python-versions:
+	@for py in 3.10 3.11 3.12; do \
+	  poetry env use $$py ; \
+	  poetry install --with dev --quiet ; \
+	  poetry run pytest ; \
+	done
+
 #.PHONY: autofix
 #autofix: .flag_installed
 #	$(run) black acl_anthology/ tests/
