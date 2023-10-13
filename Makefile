@@ -18,7 +18,7 @@ fix-and-test: pre-commit-autofix typecheck pytest
 
 .PHONY: dependencies
 dependencies: .flag_installed
-.flag_installed: pyproject.toml
+.flag_installed: pyproject.toml poetry.lock
 	poetry install --with dev
 	@touch .flag_installed
 
