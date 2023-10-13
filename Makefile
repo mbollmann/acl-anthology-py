@@ -11,6 +11,9 @@ check: pre-commit typecheck
 .PHONY: test
 test: pytest
 
+.PHONY: fix-and-test
+fix-and-test: pre-commit-autofix typecheck pytest
+
 ### Package setup
 
 .PHONY: dependencies
@@ -52,10 +55,16 @@ typecheck: .flag_installed
 pre-commit: .flag_installed
 	$(run) pre-commit run --all-files
 
-.PHONY: autofix
-autofix: .flag_installed
-	$(run) black acl_anthology/ tests/
-	$(run) ruff check --fix-only acl_anthology/ tests/
+# Runs pre-commit twice in case of failure, so that it will pass the second time
+# if only auto-fixing hooks have triggered
+.PHONY: pre-commit-autofix
+pre-commit-autofix: .flag_installed
+	@$(run) pre-commit run --all-files || $(run) pre-commit run --all-files
+
+#.PHONY: autofix
+#autofix: .flag_installed
+#	$(run) black acl_anthology/ tests/
+#	$(run) ruff check --fix-only acl_anthology/ tests/
 
 ### Documentation
 
