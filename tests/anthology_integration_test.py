@@ -21,9 +21,14 @@ SCRIPTDIR = os.path.dirname(os.path.realpath(__file__))
 DATADIR = Path(f"{SCRIPTDIR}/.official_anthology_git")
 
 
+@pytest.fixture
+def anthology_from_repo():
+    return Anthology.from_repo(path=DATADIR)
+
+
 @pytest.mark.integration
-def test_anthology_from_official_repo():
-    anthology = Anthology.from_repo(path=DATADIR)
+def test_anthology_from_official_repo(anthology_from_repo):
+    anthology = anthology_from_repo
     anthology.load_all()
     assert len(anthology.collections) > 1145
     assert anthology.get_paper("2023.acl-long.1") is not None
