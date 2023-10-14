@@ -69,19 +69,24 @@ class Anthology:
     def from_repo(
         self,
         repo_url: str = "https://github.com/acl-org/acl-anthology.git",
+        path: Optional[PathLike[str]] = None,
         verbose: bool = False,
     ) -> Anthology:
         """Instantiates the Anthology from a Git repo.
 
         Arguments:
             repo_url: The URL of a Git repo with Anthology data.  If not given, defaults to the official ACL Anthology repo.
+            path: The local path for the repo data.  If not given, automatically determines a path within the user's data directory.
             verbose: If True, will show progress bars during longer operations.
         """
-        path = (
-            dirs.user_data_path
-            / "git"
-            / slugify(repo_url).replace("https-github-com-", "")
-        )
+        if path is None:
+            path = (
+                dirs.user_data_path
+                / "git"
+                / slugify(repo_url).replace("https-github-com-", "")
+            )
+        else:
+            path = Path(path)
         git.clone_or_pull_from_repo(repo_url, path, verbose)
         return Anthology(datadir=path / "data", verbose=verbose)
 
