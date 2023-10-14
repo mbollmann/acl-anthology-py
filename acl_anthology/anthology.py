@@ -12,14 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 import gc
 import itertools as it
 from os import PathLike
 from pathlib import Path
 from rich.progress import track
+from slugify import slugify
 from typing import overload, Iterator, Optional
 
-from .config import config
+from .config import config, dirs
+from .utils import git
 from .utils.ids import AnthologyID, parse_id
 from .collections import CollectionIndex, Collection, Volume, Paper, EventIndex
 from .people import PersonIndex, Person, NameSpecification
@@ -60,6 +64,26 @@ class Anthology:
 
         self.venues = VenueIndex(self)
         """The [VenueIndex][acl_anthology.venues.VenueIndex] for accessing venues."""
+
+    @classmethod
+    def from_repo(
+        self,
+        repo_url: str = "https://github.com/acl-org/acl-anthology.git",
+        verbose: bool = False,
+    ) -> Anthology:
+        """Instantiates the Anthology from a Git repo.
+
+        Arguments:
+            repo_url: The URL of a Git repo with Anthology data.  If not given, defaults to the official ACL Anthology repo.
+            verbose: If True, will show progress bars during longer operations.
+        """
+        path = (
+            dirs.user_data_path
+            / "git"
+            / slugify(repo_url).replace("https-github-com-", "")
+        )
+        git.clone_or_pull_from_repo(repo_url, path)
+        return Anthology(datadir=path / "data", verbose=verbose)
 
     def load_all(self) -> None:
         """Load all Anthology data files.

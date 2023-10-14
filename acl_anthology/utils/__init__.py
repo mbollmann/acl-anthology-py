@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from .git import clone_or_pull_from_repo
 from .ids import build_id, parse_id, AnthologyID
 from .latex import latex_encode, latex_convert_quotes
 from .logging import setup_rich_logging, get_logger
@@ -22,6 +23,7 @@ from .xml import stringify_children
 __all__ = [
     "AnthologyID",
     "build_id",
+    "clone_or_pull_from_repo",
     "get_logger",
     "latex_encode",
     "latex_convert_quotes",
