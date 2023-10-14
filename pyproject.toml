@@ -14,6 +14,11 @@ ignore_missing_imports = true
 module = 'latexcodec.*'
 ignore_missing_imports = true
 
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests on the full acl-org/acl-anthology repo"
+]
+
 [tool.ruff]
 ignore = ['E501']  # "Line too long" is black's job
 target-version = 'py310'
