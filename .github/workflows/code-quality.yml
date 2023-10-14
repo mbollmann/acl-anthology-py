@@ -48,10 +48,10 @@ jobs:
       - name: Run tests
         run: poetry run pytest -m "not integration" --cov=acl_anthology --cov-report=xml
 
-      # Run integration tests, only run on latest Python version to save time
+      # Run integration tests, but only run on latest Python version to save time
       - name: Run integration tests
         if: ${{ matrix.python-version == '3.12' }}
-        run: poetry run pytest -m "integration" --cov=acl_anthology --cov-report=xml
+        run: poetry run pytest -m "integration" --cov=acl_anthology --cov-report=xml --cov-append
 
       # Coverage report, only uploaded in one specific run
       - name: Upload coverage reports to Codecov
