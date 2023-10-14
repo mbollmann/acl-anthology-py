@@ -16,7 +16,9 @@ from __future__ import annotations
 
 import gc
 import itertools as it
+import pkgutil
 import sys
+import warnings
 from os import PathLike
 from pathlib import Path
 from rich.progress import track
@@ -29,6 +31,7 @@ else:
     from typing_extensions import Self
 
 from .config import config, dirs
+from .exceptions import SchemaMismatchWarning
 from .utils import git
 from .utils.ids import AnthologyID, parse_id
 from .collections import CollectionIndex, Collection, Volume, Paper, EventIndex
@@ -55,6 +58,7 @@ class Anthology:
 
         self.datadir = Path(datadir)
         self.verbose = verbose
+        self._check_schema_compatibility()
 
         self.collections = CollectionIndex(self)
         """The [CollectionIndex][acl_anthology.collections.CollectionIndex] for accessing collections, volumes, and papers."""
@@ -70,6 +74,17 @@ class Anthology:
 
         self.venues = VenueIndex(self)
         """The [VenueIndex][acl_anthology.venues.VenueIndex] for accessing venues."""
+
+    def _check_schema_compatibility(self) -> None:
+        """
+        Checks if the XML schema in the data directory is identical to
+        the one in the package directory, and emits a warning if it
+        is not."""
+        expected_schema = pkgutil.get_data("acl_anthology", "data/schema.rnc")
+        with open(self.datadir / "xml" / "schema.rnc", "rb") as f:
+            datadir_schema = f.read()
+        if datadir_schema != expected_schema:
+            warnings.warn(SchemaMismatchWarning())
 
     @classmethod
     def from_repo(
