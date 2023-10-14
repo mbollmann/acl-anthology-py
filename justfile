@@ -30,7 +30,7 @@ check: _deps && typecheck
   poetry run pre-commit run --all-files
 
 # Run checks (twice in case of failure) and all tests
-fix-and-test: _deps && test-all
+fix-and-test: _deps && typecheck test-all
   @poetry run pre-commit run -a || poetry run pre-commit run -a
 
 # Run all tests
@@ -69,6 +69,10 @@ docs: _deps
 # Build and serve the documentation locally
 docs-serve: _deps
   poetry run mkdocs serve
+
+# Open a Python REPL
+py *ARGS: _deps
+  poetry run python {{ARGS}}
 
 # Check that there are no uncommited changes
 _no_uncommitted_changes:
