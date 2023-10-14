@@ -53,7 +53,6 @@ jobs:
         if: ${{ matrix.python-version == '3.12' }}
         run: poetry run pytest -m "integration" --cov=acl_anthology --cov-report=xml --cov-append
 
-      # Coverage report, only uploaded in one specific run
+      # Coverage report
       - name: Upload coverage reports to Codecov
-        if: ${{ matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3
