@@ -82,7 +82,7 @@ class Anthology:
             / "git"
             / slugify(repo_url).replace("https-github-com-", "")
         )
-        git.clone_or_pull_from_repo(repo_url, path)
+        git.clone_or_pull_from_repo(repo_url, path, verbose)
         return Anthology(datadir=path / "data", verbose=verbose)
 
     def load_all(self) -> None:
