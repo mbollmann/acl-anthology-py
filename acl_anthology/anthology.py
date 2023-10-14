@@ -16,11 +16,17 @@ from __future__ import annotations
 
 import gc
 import itertools as it
+import sys
 from os import PathLike
 from pathlib import Path
 from rich.progress import track
 from slugify import slugify
 from typing import overload, Iterator, Optional
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
 from .config import config, dirs
 from .utils import git
@@ -67,11 +73,11 @@ class Anthology:
 
     @classmethod
     def from_repo(
-        self,
+        cls,
         repo_url: str = "https://github.com/acl-org/acl-anthology.git",
         path: Optional[PathLike[str]] = None,
         verbose: bool = False,
-    ) -> Anthology:
+    ) -> Self:
         """Instantiates the Anthology from a Git repo.
 
         Arguments:
@@ -88,9 +94,9 @@ class Anthology:
         else:
             path = Path(path)
         git.clone_or_pull_from_repo(repo_url, path, verbose)
-        return Anthology(datadir=path / "data", verbose=verbose)
+        return cls(datadir=path / "data", verbose=verbose)
 
-    def load_all(self) -> None:
+    def load_all(self) -> Self:
         """Load all Anthology data files.
 
         Calling this function is **not strictly necessary.** If you
@@ -125,6 +131,7 @@ class Anthology:
             self.people.verbose = True
         if was_gc_enabled:
             gc.enable()
+        return self
 
     def volumes(self, collection_id: Optional[str] = None) -> Iterator[Volume]:
         """Returns an iterator over all volumes.
