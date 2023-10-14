@@ -4,10 +4,13 @@
 # ALIASES
 
 [private]
-alias ta := test-all
+alias ds := docs-serve
 
 [private]
 alias ft := fix-and-test
+
+[private]
+alias ta := test-all
 
 # Install the project dependencies
 install:
@@ -66,7 +69,6 @@ docs: _deps
 # Build and serve the documentation locally
 docs-serve: _deps
   poetry run mkdocs serve
-
 
 # Check that there are no uncommited changes
 _no_uncommitted_changes:
