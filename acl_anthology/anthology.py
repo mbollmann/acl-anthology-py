@@ -127,25 +127,27 @@ class Anthology:
         if config["disable_gc"]:
             was_gc_enabled = gc.isenabled()
             gc.disable()
-        iterator = track(
-            it.chain(
-                self.collections.values(),
-                (self.people, self.events, self.sigs, self.venues),
-            ),
-            total=len(self.collections) + 4,
-            disable=(not self.verbose),
-            description="Loading Anthology data...",
-        )
-        if self.verbose:
-            self.events.verbose = False
-            self.people.verbose = False
-        for elem in iterator:
-            elem.load()  # type: ignore
-        if self.verbose:
-            self.events.verbose = True
-            self.people.verbose = True
-        if was_gc_enabled:
-            gc.enable()
+        try:
+            iterator = track(
+                it.chain(
+                    self.collections.values(),
+                    (self.people, self.events, self.sigs, self.venues),
+                ),
+                total=len(self.collections) + 4,
+                disable=(not self.verbose),
+                description="Loading Anthology data...",
+            )
+            if self.verbose:
+                self.events.verbose = False
+                self.people.verbose = False
+            for elem in iterator:
+                elem.load()  # type: ignore
+            if self.verbose:
+                self.events.verbose = True
+                self.people.verbose = True
+        finally:
+            if was_gc_enabled:
+                gc.enable()
         return self
 
     def volumes(self, collection_id: Optional[str] = None) -> Iterator[Volume]:
