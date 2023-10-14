@@ -129,7 +129,7 @@ class SlottedDict(Generic[T]):
             self.load()
         return self.data.popitem()
 
-    def setdefault(self, key: str, default: Optional[T] = None) -> T | None:
+    def setdefault(self, key: str, default: T) -> T:
         if not self.is_data_loaded:
             self.load()
         if key in self.data:

@@ -150,8 +150,9 @@ def test_container_setdefault(demo):
     assert demo.setdefault("C", 3) == 3
     assert "C" in demo
     assert demo.setdefault("A", 3) == 1
-    assert demo.setdefault("X") is None
-    assert "X" in demo
+    with pytest.raises(TypeError):
+        assert demo.setdefault("X")
+    assert "X" not in demo
 
 
 def test_container_update(demo, other):
