@@ -1735,6 +1735,17 @@ files = [
 ]
 
 [[package]]
+name = "timer4"
+version = "1.1.0"
+description = "Timing Python code made easy"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "timer4-1.1.0-py3-none-any.whl", hash = "sha256:23d635ab721c04cc36b0a38333993bf057ebcb8067dd1b02c53d1c9b842f8ec8"},
+    {file = "timer4-1.1.0.tar.gz", hash = "sha256:4a93c16a3fec06ac9a3afce92a28ceb7dff514829e1ca6d8b4b3f8287b4b98ba"},
+]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -1921,4 +1932,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11.0 || >3.11.0,<3.13"
-content-hash = "222678e11efb021b1e27ca1b6273e90573d7f7b07c0d3f25e558d4f144ec908a"
+content-hash = "3df612992bdf6d536850533eeb3076f54bb2ab46074c82c7b37d8da952530697"
