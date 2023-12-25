@@ -1,5 +1,13 @@
 # acl-anthology-py
 
+## This library has moved!
+
+**As of 2023-12-25, this library is now part of the [official ACL Anthology repo](https://github.com/acl-org/acl-anthology/), and all future development will happen there.**
+
+Please check the [README in acl-org/acl-anthology/python/](https://github.com/acl-org/acl-anthology/blob/master/python/README.md) for the latest information.
+
+- - -
+
 [![License](https://img.shields.io/github/license/mbollmann/acl-anthology-py)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/mbollmann/acl-anthology-py/code-quality.yml)](https://github.com/mbollmann/acl-anthology-py/actions/workflows/code-quality.yml)
 [![Documentation](https://img.shields.io/readthedocs/acl-anthology-py)](https://acl-anthology-py.readthedocs.io/en/latest/)
